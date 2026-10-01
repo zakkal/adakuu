@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin-login
+Disallow: /checkout/
+Disallow: /orders/*/
+Disallow: /riwayat-pesanan
+
+# Sitemap
+Sitemap: {{ url('/sitemap.xml') }}
+
+# Crawl-delay
+Crawl-delay: 1

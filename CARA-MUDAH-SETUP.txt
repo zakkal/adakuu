@@ -1,0 +1,112 @@
+================================================================
+CARA PALING MUDAH SETUP EMAIL (3 LANGKAH!)
+================================================================
+
+LANGKAH 1: GENERATE APP PASSWORD
+---------------------------------
+1. Buka browser, ke:
+   https://myaccount.google.com/apppasswords
+
+2. Login dengan: shoppinghere@shoppinghere.biz.id
+
+3. Klik tombol "Buat" atau "Create" atau "+ Add"
+
+4. Ketik nama: "Adakuu Website"
+
+5. Klik "Buat" / "Generate"
+
+6. Akan muncul password 16 karakter:
+   
+   ┌─────────────────────────┐
+   │  abcd efgh ijkl mnop    │
+   └─────────────────────────┘
+   
+   COPY password tersebut! (Ctrl+C)
+   
+   ⚠️ Password hanya muncul 1x!
+
+
+LANGKAH 2: PASTE PASSWORD
+--------------------------
+1. Buka file: input-app-password.txt
+   (Klik 2x file tersebut)
+
+2. Cari baris:
+   APP_PASSWORD: [PASTE DI SINI]
+
+3. Ganti [PASTE DI SINI] dengan password yang tadi kamu copy
+
+   Contoh hasil:
+   APP_PASSWORD: abcd efgh ijkl mnop
+   
+   atau (tanpa spasi juga boleh):
+   APP_PASSWORD: abcdefghijklmnop
+
+4. SAVE file (Ctrl+S)
+
+
+LANGKAH 3: JALANKAN SCRIPT
+---------------------------
+1. Buka CMD/Terminal (Win+R → ketik "cmd" → Enter)
+
+2. Ketik:
+   cd c:\jualakun
+   php apply-app-password.php
+
+3. Tekan Enter
+
+4. Tunggu...
+
+5. Jika berhasil, akan muncul:
+   ✅✅✅ BERHASIL! ✅✅✅
+
+
+LANGKAH 4: CEK EMAIL
+---------------------
+1. Buka Gmail: zaki.alghifari0306@gmail.com
+
+2. Cek INBOX (Utama)
+
+3. Cek folder SPAM/Promosi jika tidak ada di inbox
+
+4. Tunggu 1-2 menit jika belum masuk
+
+5. Cari subject: "Test Email SMTP Berhasil - Adakuu"
+
+
+================================================================
+DONE! ✅
+================================================================
+
+Setelah berhasil, setiap customer checkout akan otomatis
+dapat email notification di inbox mereka! 🚀
+
+================================================================
+TROUBLESHOOTING
+================================================================
+
+Jika GAGAL dan muncul error "BadCredentials":
+→ App Password salah
+→ Generate password baru
+→ Ulangi dari LANGKAH 1
+
+Jika file tidak ditemukan:
+→ Pastikan kamu di folder c:\jualakun
+→ Jalankan: cd c:\jualakun
+
+================================================================
+ALTERNATIF: PAKAI MAILTRAP (LEBIH MUDAH)
+================================================================
+
+Jika Gmail terlalu ribet, pakai Mailtrap:
+
+1. Daftar: https://mailtrap.io/register/signup (gratis)
+2. Copy Username & Password
+3. Jalankan: php setup-mailtrap.php
+4. Paste credentials
+5. DONE!
+
+Mailtrap: email masuk ke fake inbox (bisa lihat di web)
+Gmail: email masuk ke inbox REAL customer
+
+================================================================

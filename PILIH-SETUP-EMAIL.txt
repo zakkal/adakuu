@@ -1,0 +1,101 @@
+================================================================
+PILIH CARA SETUP EMAIL AGAR MASUK INBOX
+================================================================
+
+Kamu punya 3 PILIHAN:
+
+----------------------------------------------------------------
+PILIHAN 1: GMAIL SMTP (Production Ready)
+----------------------------------------------------------------
+✅ Email masuk ke inbox REAL
+✅ Gratis
+❌ Setup agak ribet (perlu App Password)
+
+Cara:
+1. Buka: https://myaccount.google.com/security
+2. Aktifkan 2-Factor Authentication
+3. Buka: https://myaccount.google.com/apppasswords
+4. Generate App Password (16 karakter)
+5. Jalankan: php setup-smtp-interactive.php
+6. Paste App Password
+7. DONE!
+
+Panduan lengkap: SETUP-EMAIL-GMAIL.md
+
+----------------------------------------------------------------
+PILIHAN 2: MAILTRAP (Development/Testing) ⭐ RECOMMENDED
+----------------------------------------------------------------
+✅ Setup 5 menit
+✅ Tidak perlu App Password
+✅ Preview email di web dashboard
+❌ Email tidak masuk inbox real (fake inbox)
+
+Cara:
+1. Daftar: https://mailtrap.io/register/signup
+2. Login → Email Testing → My Inbox
+3. Copy Username & Password dari SMTP Settings
+4. Jalankan: php setup-mailtrap.php
+5. Paste credentials
+6. DONE!
+
+Lihat email di: https://mailtrap.io/ (web dashboard)
+
+----------------------------------------------------------------
+PILIHAN 3: TETAP PAKAI LOG (Sekarang)
+----------------------------------------------------------------
+✅ Sudah aktif
+✅ Tidak perlu setup apapun
+❌ Email tidak masuk inbox (hanya di log file)
+
+Cara lihat email:
+Get-Content storage\logs\laravel.log -Tail 200
+
+================================================================
+REKOMENDASI
+================================================================
+
+UNTUK DEVELOPMENT/TESTING:
+→ Pakai MAILTRAP (pilihan 2)
+  Paling mudah, bisa preview email
+
+UNTUK PRODUCTION (LIVE):
+→ Pakai GMAIL SMTP (pilihan 1)
+  Email masuk inbox real customer
+
+UNTUK SEKARANG (QUICK):
+→ Tetap LOG (pilihan 3)
+  Sudah jalan, cukup untuk development
+
+================================================================
+SCRIPT YANG TERSEDIA
+================================================================
+
+Setup Scripts:
+- php setup-smtp-interactive.php    (untuk Gmail)
+- php setup-mailtrap.php             (untuk Mailtrap)
+
+Test Scripts:
+- php test-email.php                 (test kirim email)
+- php check-user-email.php           (cek user emails)
+- php check-latest-order.php         (cek order terbaru)
+
+Documentation:
+- SETUP-EMAIL-GMAIL.md               (panduan Gmail SMTP)
+- ALTERNATIF-EMAIL-SERVICES.md       (panduan semua service)
+- STATUS-EMAIL.md                    (status sistem email)
+
+================================================================
+QUICK START
+================================================================
+
+Mau yang PALING MUDAH?
+→ Jalankan: php setup-mailtrap.php
+→ Waktu: 5 menit
+→ Email bisa dilihat di web
+
+Mau email REAL masuk inbox customer?
+→ Jalankan: php setup-smtp-interactive.php
+→ Waktu: 10 menit
+→ Email masuk Gmail real
+
+================================================================

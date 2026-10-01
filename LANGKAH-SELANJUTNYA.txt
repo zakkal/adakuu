@@ -1,0 +1,79 @@
+========================================
+LANGKAH SETUP GMAIL SMTP - DARI SCREENSHOT
+========================================
+
+Kamu sudah di halaman yang BENAR! ✅
+
+LANGKAH BERIKUTNYA:
+==================
+
+1. BUAT APP PASSWORD BARU
+   -----------------------
+   Di halaman yang sekarang (screenshot):
+   
+   a) Klik tombol "Buat" atau "Create"
+   
+   b) Akan muncul popup/form:
+      - Nama aplikasi: Ketik "Adakuu Website"
+      - atau "adakuu" (bebas)
+   
+   c) Klik "Buat" / "Create"
+   
+   d) Akan muncul APP PASSWORD 16 karakter:
+      Format: xxxx xxxx xxxx xxxx
+      Contoh: abcd efgh ijkl mnop
+   
+   e) COPY password tersebut!
+      PENTING: Password hanya muncul 1x!
+
+2. JALANKAN SCRIPT SETUP
+   ----------------------
+   Buka CMD/Terminal di: c:\jualakun
+   
+   Jalankan:
+   php setup-smtp-interactive.php
+   
+   Script akan minta kamu paste App Password.
+
+3. PASTE APP PASSWORD
+   -------------------
+   Paste password yang kamu copy tadi.
+   
+   Boleh dengan spasi: abcd efgh ijkl mnop
+   Atau tanpa spasi: abcdefghijklmnop
+   
+   Script akan otomatis bersihkan spasi.
+
+4. TEST
+   -----
+   Script akan otomatis:
+   - Update file .env
+   - Clear config cache
+   - Kirim test email
+   
+   Jika berhasil:
+   ✅ Email akan masuk ke: zaki.alghifari0306@gmail.com
+   ✅ Cek inbox atau SPAM folder
+
+========================================
+KALAU ADA MASALAH
+========================================
+
+Jika script gagal:
+- Coba generate App Password baru
+- Pastikan copy dengan benar (16 karakter)
+- Jalankan script lagi
+
+Atau alternatif pakai Mailtrap (lebih mudah):
+php setup-mailtrap.php
+
+========================================
+SIAP?
+========================================
+
+Jalankan sekarang:
+cd c:\jualakun
+php setup-smtp-interactive.php
+
+Good luck! 🚀
+========================================

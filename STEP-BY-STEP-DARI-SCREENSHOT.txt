@@ -1,0 +1,133 @@
+================================================================
+STEP BY STEP - DARI SCREENSHOT YANG KAMU KIRIM
+================================================================
+
+POSISI SEKARANG:
+----------------
+✅ Kamu sudah di: Google Account → Security → App passwords
+✅ Halaman yang BENAR!
+
+================================================================
+OPTION 1: PAKAI APP PASSWORD YANG SUDAH ADA
+================================================================
+
+Dari screenshot, kamu punya app password: "ndhr auyd iugj dpge"
+
+1. Klik pada app password tersebut
+2. Akan muncul password 16 karakter
+3. Copy password tersebut
+4. Buka CMD/Terminal, jalankan:
+   
+   cd c:\jualakun
+   php setup-smtp-interactive.php
+
+5. Paste password yang kamu copy
+6. DONE!
+
+⚠️ TAPI jika app password itu sudah dipakai untuk app lain,
+   lebih baik buat yang baru (option 2)
+
+================================================================
+OPTION 2: BUAT APP PASSWORD BARU (RECOMMENDED)
+================================================================
+
+1. DI HALAMAN SCREENSHOT
+   ----------------------
+   Klik tombol "Buat" atau "+ Create"
+   
+2. MUNCUL POPUP
+   ------------
+   - Nama aplikasi: Ketik "Adakuu Website"
+   - Klik "Buat" / "Generate"
+   
+3. MUNCUL PASSWORD
+   ---------------
+   Akan muncul 16 karakter password:
+   
+   ┌─────────────────────────┐
+   │  abcd efgh ijkl mnop    │  ← Contoh
+   └─────────────────────────┘
+   
+   Klik icon COPY atau select & Ctrl+C
+
+4. SIMPAN PASSWORD
+   ---------------
+   ⚠️ PENTING: Password hanya muncul 1x!
+   Save di notepad dulu kalau perlu.
+
+5. JALANKAN SETUP
+   --------------
+   Buka CMD/Terminal (Win+R → ketik "cmd"):
+   
+   cd c:\jualakun
+   php setup-smtp-interactive.php
+   
+   Atau double-click: setup-gmail.bat
+
+6. PASTE PASSWORD
+   --------------
+   Script akan minta App Password.
+   Paste (Ctrl+V) password yang tadi kamu copy.
+   
+   Boleh:
+   - abcd efgh ijkl mnop (dengan spasi) ✅
+   - abcdefghijklmnop (tanpa spasi) ✅
+   
+   Script akan auto-clean spasi.
+
+7. TUNGGU
+   ------
+   Script akan:
+   - Update .env
+   - Clear cache
+   - Test email
+   
+8. BERHASIL!
+   ---------
+   Jika muncul: "✅ SUKSES!"
+   
+   Cek email di: zaki.alghifari0306@gmail.com
+   (Cek inbox DAN spam folder)
+
+================================================================
+TROUBLESHOOTING
+================================================================
+
+ERROR: "BadCredentials"
+→ App Password salah atau 2FA belum aktif
+→ Generate password baru dan coba lagi
+
+ERROR: "Connection refused"  
+→ Internet bermasalah atau firewall block port 587
+
+Email tidak masuk inbox
+→ Tunggu 1-2 menit
+→ Cek folder SPAM
+→ Pastikan email shoppinghere@shoppinghere.biz.id bisa login
+
+================================================================
+KALAU MASIH BINGUNG
+================================================================
+
+Pakai Mailtrap aja (lebih mudah, no 2FA needed):
+
+cd c:\jualakun
+php setup-mailtrap.php
+
+Daftar Mailtrap: https://mailtrap.io/register/signup
+
+================================================================
+READY TO GO?
+================================================================
+
+Jalankan:
+1. Double-click: setup-gmail.bat
+   
+   ATAU
+   
+2. CMD:
+   cd c:\jualakun
+   php setup-smtp-interactive.php
+
+Good luck! 🚀
+================================================================

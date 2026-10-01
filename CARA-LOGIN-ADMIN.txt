@@ -1,0 +1,77 @@
+====================================
+CARA LOGIN ADMIN
+====================================
+
+MASALAH:
+- Route /admin/login tidak ada
+- Admin pakai login customer biasa
+- Harus punya role "admin"
+
+SOLUSI:
+========
+
+CARA 1: Logout & Login Ulang
+-----------------------------
+1. Buka: http://localhost:8000
+2. Klik "Logout" (kanan atas)
+3. Klik "Login"
+4. Login dengan:
+   Email: admin@pasti-premium.com
+   Password: password
+5. Setelah login, buka: http://localhost:8000/admin
+
+CARA 2: Incognito Window
+-------------------------
+1. Buka browser Incognito (Ctrl+Shift+N)
+2. Buka: http://localhost:8000
+3. Klik "Login"
+4. Login dengan admin credentials
+5. Buka: http://localhost:8000/admin
+
+CARA 3: Pakai Email Sendiri
+----------------------------
+Email zakkaldev@gmail.com sudah dijadikan admin!
+
+1. Logout dari user sekarang
+2. Login dengan: zakkaldev@gmail.com
+3. Password: (password Google kamu)
+4. Buka: http://localhost:8000/admin
+
+====================================
+LIST ADMIN USERS
+====================================
+
+1. Email: admin@pasti-premium.com
+   Password: password
+
+2. Email: admin@yuk.proin.com
+   Password: password
+
+3. Email: zakkaldev@gmail.com
+   Password: (password Google kamu)
+   Role: admin (baru diupdate)
+
+====================================
+TESTING ADMIN PANEL
+====================================
+
+Setelah berhasil login sebagai admin:
+
+1. Dashboard: http://localhost:8000/admin
+2. Kelola Produk: http://localhost:8000/admin/products
+3. Tambah Produk: http://localhost:8000/admin/products/create
+4. Kelola Pesanan: http://localhost:8000/admin/orders
+
+====================================
+TROUBLESHOOTING
+====================================
+
+Kalau redirect terus ke login:
+→ Clear cookies browser
+→ Coba incognito window
+→ Pastikan email yang login punya role "admin"
+
+Cek role user di database:
+→ Jalankan: php check-user-email.php
+
+====================================

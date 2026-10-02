@@ -63,19 +63,9 @@
         </script>
         @else
         <p class="text-[10px] sm:text-xs text-amber-600 font-semibold bg-amber-50 p-3 rounded-xl">
-            ⚠️ Midtrans tidak dikonfigurasi. Gunakan simulasi pembayaran di bawah untuk testing.
+            ⚠️ Midtrans tidak dikonfigurasi. Hubungi admin untuk menyelesaikan pembayaran.
         </p>
         @endif
-
-        <!-- Direct Simulation Button Backup -->
-        <div class="pt-3 sm:pt-4 border-t border-gray-100">
-            <form action="{{ route('orders.pay.simulate', $order->order_number) }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] sm:text-xs shadow-md shadow-emerald-100 transition-all">
-                    [ Simulasi Pembayaran Langsung / Bypass Webhook ]
-                </button>
-            </form>
-        </div>
     </div>
 
 </div>

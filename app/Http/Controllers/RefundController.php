@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminNotification;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,9 @@ class RefundController extends Controller
             'refund_requested_at' => now(),
             'refund_amount' => $order->total_amount, // 100% refund
         ]);
+
+        // Create admin notification for refund request
+        AdminNotification::createRefundRequestNotification($order);
 
         return redirect()->route('orders.show', $order->order_number)
             ->with('success', 'Permintaan refund berhasil diajukan. Admin akan memproses dalam 1x24 jam.');

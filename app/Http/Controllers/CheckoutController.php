@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\OrderConfirmation;
+use App\Mail\OrderPaid;
+use App\Models\AdminNotification;
 use App\Models\Order;
 use App\Models\Package;
 use Illuminate\Http\Request;
@@ -42,7 +44,7 @@ class CheckoutController extends Controller
         if (! $package->hasStock() || $package->stock < $quantity) {
             $package->update(['is_available' => false]);
 
-            return back()->with('error', 'Maaf, stock tidak mencukupi. Stock tersedia: ' . $package->stock);
+            return back()->with('error', 'Maaf, stock tidak mencukupi. Stock tersedia: '.$package->stock);
         }
 
         $totalAmount = $package->price * $quantity;
@@ -64,12 +66,15 @@ class CheckoutController extends Controller
         // Decrement stock by quantity
         $package->decrementStock($quantity);
 
+        // Create admin notification for new checkout
+        AdminNotification::createCheckoutNotification($order);
+
         // Send order confirmation email
         if (auth()->user()->email) {
             try {
                 Mail::to(auth()->user()->email)->send(new OrderConfirmation($order));
             } catch (\Exception $e) {
-                logger()->error('Failed to send order confirmation email: ' . $e->getMessage());
+                logger()->error('Failed to send order confirmation email: '.$e->getMessage());
             }
         }
 
@@ -139,12 +144,15 @@ class CheckoutController extends Controller
             'admin_note' => 'Pesanan kamu sudah kami terima. Admin akan segera menghubungi kamu melalui WhatsApp untuk proses pesanan.',
         ]);
 
+        // Create admin notification for payment success
+        AdminNotification::createPaymentSuccessNotification($order);
+
         // Send order paid email
         if ($order->user && $order->user->email) {
             try {
-                Mail::to($order->user->email)->send(new \App\Mail\OrderPaid($order));
+                Mail::to($order->user->email)->send(new OrderPaid($order));
             } catch (\Exception $e) {
-                logger()->error('Failed to send order paid email: ' . $e->getMessage());
+                logger()->error('Failed to send order paid email: '.$e->getMessage());
             }
         }
 

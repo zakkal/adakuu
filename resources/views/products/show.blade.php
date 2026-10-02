@@ -204,15 +204,36 @@
         @endforeach
     </div>
 
-    <!-- Checkout Modal -->
-    <div x-show="openCheckoutModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-gray-900/60 backdrop-blur-sm" x-cloak>
-        <div @click.away="openCheckoutModal = false" class="bg-white rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border border-gray-100 space-y-4 sm:space-y-6 max-h-[95vh] overflow-y-auto">
+    <!-- Checkout Modal with Fixed Backdrop -->
+    <div x-show="openCheckoutModal" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" 
+         x-cloak
+         style="background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        
+        <div @click.away="openCheckoutModal = false" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform scale-95"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-95"
+             class="bg-white rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border border-gray-100 space-y-4 sm:space-y-6 max-h-[95vh] overflow-y-auto relative">
             <div class="flex items-center justify-between border-b border-gray-100 pb-3 sm:pb-4">
                 <h3 class="text-lg sm:text-xl font-black text-gray-900">Form Pemesanan</h3>
-                <button @click="openCheckoutModal = false" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+                <button @click="openCheckoutModal = false" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
             </div>
 
-            <div class="bg-indigo-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-red-100">
+            <div class="bg-gradient-to-br from-red-50 to-pink-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-red-200">
                 <p class="text-[10px] sm:text-xs text-red-700 font-semibold">Produk yang dipilih:</p>
                 <h4 class="text-sm sm:text-base font-black text-red-900" x-text="selectedPackage ? selectedPackage.name : ''"></h4>
                 <p class="text-xs sm:text-sm font-bold text-red-600 mt-1" x-text="selectedPackage ? 'Rp' + new Intl.NumberFormat('id-ID').format(selectedPackage.price) : ''"></p>

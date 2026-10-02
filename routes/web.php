@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminSettingController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerAuthController;
@@ -76,6 +77,14 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->
 // Admin Panel Routes (Protected)
 Route::prefix('admin')->name('admin.')->middleware(AdminMiddleware::class)->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Notification Routes
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::delete('/notifications', [NotificationController::class, 'destroyAll'])->name('notifications.destroyAll');
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('notifications.unreadCount');
 
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/paid', [AdminOrderController::class, 'paid'])->name('orders.paid');

@@ -181,42 +181,66 @@
 <script>
     const ctx = document.getElementById('salesChart');
     
+    // Pareto Chart Style (Bar + Cumulative Line)
     new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: {!! json_encode($chartLabels) !!},
             datasets: [
+                // Bar Chart - Omzet Kotor
                 {
-                    label: 'Omzet Kotor',
+                    type: 'bar',
+                    label: 'Omzet Kotor (Rp)',
                     data: {!! json_encode($chartRevenue) !!},
-                    borderColor: 'rgb(249, 115, 22)',
-                    backgroundColor: 'transparent',
-                    borderWidth: 3,
-                    fill: false,
-                    tension: 0,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
-                    pointBackgroundColor: 'rgb(249, 115, 22)',
-                    pointBorderColor: 'rgb(249, 115, 22)',
-                    pointHoverBorderColor: 'rgb(249, 115, 22)',
-                    pointBorderWidth: 0,
-                    pointHoverBorderWidth: 0
+                    backgroundColor: 'rgba(220, 38, 38, 0.8)',
+                    borderColor: 'rgb(220, 38, 38)',
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    barPercentage: 0.5,
+                    categoryPercentage: 0.7,
+                    yAxisID: 'y',
+                    order: 2
                 },
+                // Bar Chart - Keuntungan Bersih
                 {
-                    label: 'Keuntungan Bersih',
+                    type: 'bar',
+                    label: 'Keuntungan Bersih (Rp)',
                     data: {!! json_encode($chartProfit) !!},
-                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                    borderColor: 'rgb(16, 185, 129)',
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    barPercentage: 0.5,
+                    categoryPercentage: 0.7,
+                    yAxisID: 'y',
+                    order: 3
+                },
+                // Cumulative Line (Persentase Kumulatif)
+                {
+                    type: 'line',
+                    label: 'Kumulatif Omzet (%)',
+                    data: (() => {
+                        // Calculate cumulative percentage
+                        const revenue = {!! json_encode($chartRevenue) !!};
+                        const total = revenue.reduce((a, b) => a + b, 0);
+                        let cumulative = 0;
+                        return revenue.map(val => {
+                            cumulative += val;
+                            return total > 0 ? (cumulative / total * 100) : 0;
+                        });
+                    })(),
+                    borderColor: 'rgb(239, 68, 68)',
                     backgroundColor: 'transparent',
-                    borderWidth: 3,
-                    fill: false,
-                    tension: 0,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
-                    pointBackgroundColor: 'rgb(59, 130, 246)',
-                    pointBorderColor: 'rgb(59, 130, 246)',
-                    pointHoverBorderColor: 'rgb(59, 130, 246)',
-                    pointBorderWidth: 0,
-                    pointHoverBorderWidth: 0
+                    borderWidth: 4,
+                    tension: 0.3,
+                    pointRadius: 6,
+                    pointHoverRadius: 9,
+                    pointBackgroundColor: 'rgb(239, 68, 68)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 3,
+                    pointHoverBorderWidth: 4,
+                    yAxisID: 'y1',
+                    order: 1
                 }
             ]
         },
@@ -224,8 +248,8 @@
             responsive: true,
             maintainAspectRatio: false,
             interaction: {
-                intersect: false,
-                mode: 'index'
+                mode: 'index',
+                intersect: false
             },
             plugins: {
                 legend: {
@@ -234,40 +258,65 @@
                     align: 'end',
                     labels: {
                         usePointStyle: true,
-                        padding: 15,
+                        pointStyle: 'circle',
+                        padding: 20,
                         font: {
-                            size: 12,
-                            weight: '600'
+                            size: 13,
+                            weight: 'bold',
+                            family: 'Plus Jakarta Sans'
                         },
-                        color: '#374151'
+                        color: '#1f2937',
+                        generateLabels: (chart) => {
+                            const datasets = chart.data.datasets;
+                            return datasets.map((dataset, i) => ({
+                                text: dataset.label,
+                                fillStyle: dataset.type === 'line' ? dataset.borderColor : dataset.backgroundColor,
+                                strokeStyle: dataset.borderColor,
+                                lineWidth: dataset.type === 'line' ? 3 : 0,
+                                hidden: !chart.isDatasetVisible(i),
+                                datasetIndex: i,
+                                pointStyle: dataset.type === 'line' ? 'circle' : 'rect'
+                            }));
+                        }
                     }
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                    backgroundColor: 'rgba(17, 24, 39, 0.97)',
                     padding: 16,
                     titleColor: '#fff',
                     titleFont: {
-                        size: 13,
-                        weight: 'bold'
+                        size: 14,
+                        weight: 'bold',
+                        family: 'Plus Jakarta Sans'
                     },
                     bodyColor: '#fff',
                     bodyFont: {
-                        size: 13
+                        size: 14,
+                        family: 'Plus Jakarta Sans'
                     },
-                    bodySpacing: 8,
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    bodySpacing: 10,
+                    borderColor: 'rgba(255, 255, 255, 0.15)',
                     borderWidth: 1,
                     cornerRadius: 12,
                     displayColors: true,
                     usePointStyle: true,
                     callbacks: {
+                        title: function(context) {
+                            return '📊 ' + context[0].label;
+                        },
                         label: function(context) {
                             let label = context.dataset.label || '';
                             if (label) {
                                 label += ': ';
                             }
                             if (context.parsed.y !== null) {
-                                label += 'Rp' + context.parsed.y.toLocaleString('id-ID');
+                                if (context.dataset.yAxisID === 'y1') {
+                                    // Percentage for cumulative line
+                                    label += context.parsed.y.toFixed(1) + '%';
+                                } else {
+                                    // Currency for bars
+                                    label += 'Rp' + context.parsed.y.toLocaleString('id-ID');
+                                }
                             }
                             return label;
                         }
@@ -276,19 +325,21 @@
             },
             scales: {
                 y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
                     beginAtZero: true,
-                    suggestedMax: undefined,
                     border: {
                         display: true,
-                        color: '#d1d5db'
+                        color: '#d1d5db',
+                        width: 2
                     },
                     grid: {
-                        color: '#e5e7eb',
-                        drawBorder: true,
-                        lineWidth: 1
+                        color: '#f3f4f6',
+                        lineWidth: 1.5
                     },
                     ticks: {
-                        maxTicksLimit: 6,
+                        maxTicksLimit: 7,
                         callback: function(value) {
                             if (value >= 1000000) {
                                 return 'Rp' + (value / 1000000).toFixed(1) + 'jt';
@@ -298,34 +349,88 @@
                             return 'Rp' + value.toLocaleString('id-ID');
                         },
                         font: {
-                            size: 11,
-                            weight: '500'
+                            size: 12,
+                            weight: 'bold',
+                            family: 'Plus Jakarta Sans'
                         },
                         color: '#6B7280',
+                        padding: 12
+                    },
+                    title: {
+                        display: true,
+                        text: 'Pendapatan (Rp)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: 'Plus Jakarta Sans'
+                        },
+                        color: '#374151',
+                        padding: 10
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    min: 0,
+                    max: 100,
+                    border: {
+                        display: true,
+                        color: '#fca5a5',
+                        width: 2
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        },
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: 'Plus Jakarta Sans'
+                        },
+                        color: '#dc2626',
+                        padding: 12
+                    },
+                    title: {
+                        display: true,
+                        text: 'Kumulatif (%)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: 'Plus Jakarta Sans'
+                        },
+                        color: '#dc2626',
                         padding: 10
                     }
                 },
                 x: {
                     border: {
                         display: true,
-                        color: '#d1d5db'
+                        color: '#d1d5db',
+                        width: 2
                     },
                     grid: {
-                        display: true,
-                        color: '#f3f4f6',
-                        drawBorder: true
+                        display: false
                     },
                     ticks: {
                         font: {
-                            size: 11,
-                            weight: '600'
+                            size: 12,
+                            weight: 'bold',
+                            family: 'Plus Jakarta Sans'
                         },
                         color: '#374151',
-                        padding: 10,
-                        maxRotation: 0,
+                        padding: 12,
+                        maxRotation: 45,
                         minRotation: 0
                     }
                 }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
             }
         }
     });

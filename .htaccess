@@ -1,4 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    
+    # Redirect to Laravel public folder
+    RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
+
+# Set index.php as priority
+DirectoryIndex index.php index.html

@@ -546,7 +546,7 @@
                     <div class="border border-gray-200 rounded-xl overflow-hidden">
                         <button @click="openFaq = openFaq === 4 ? null : 4" 
                                 class="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-all">
-                            <span class="font-semibold text-gray-900">Berapa lama proses pengiriman akun?</span>
+                            <span class="font-semibold text-gray-900">Apakah ada garansi untuk produk yang dibeli?</span>
                             <svg class="w-5 h-5 text-gray-500 transition-transform" :class="openFaq === 4 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
@@ -557,7 +557,7 @@
                              x-transition:enter-end="opacity-100 transform translate-y-0"
                              class="px-5 pb-4 text-sm text-gray-600 leading-relaxed"
                              style="display: none;">
-                            Setelah pembayaran terverifikasi, akun akan langsung dikirim ke WhatsApp Anda. Admin kami siap memproses pesanan Anda dengan cepat dan responsif.
+                            Ya, setiap produk memiliki garansi sesuai dengan ketentuan yang tercantum di halaman <strong>"Ketentuan & Garansi"</strong>. Masa garansi berbeda-beda tergantung produk. Jika terjadi masalah yang tercover garansi (seperti akun downgrade atau error sistem), kami akan memberikan penggantian akun atau solusi alternatif. Silakan baca detail ketentuan di menu Ketentuan untuk informasi lengkap.
                         </div>
                     </div>
 

@@ -204,85 +204,91 @@
         @endforeach
     </div>
 
-    <!-- Checkout Modal with Fixed Backdrop -->
+    <!-- Checkout Modal with Solid Dark Backdrop -->
     <div x-show="openCheckoutModal" 
+         @keydown.escape.window="openCheckoutModal = false"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" 
-         x-cloak
-         style="background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+         class="fixed inset-0 z-[9999] bg-gray-900/95 overflow-y-auto" 
+         x-cloak>
         
-        <div @click.away="openCheckoutModal = false" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 transform scale-95"
-             x-transition:enter-end="opacity-100 transform scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-95"
-             class="bg-white rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border border-gray-100 space-y-4 sm:space-y-6 max-h-[95vh] overflow-y-auto relative">
-            <div class="flex items-center justify-between border-b border-gray-100 pb-3 sm:pb-4">
-                <h3 class="text-lg sm:text-xl font-black text-gray-900">Form Pemesanan</h3>
-                <button @click="openCheckoutModal = false" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
+        <!-- Modal Content Container -->
+        <div class="flex items-center justify-center min-h-screen p-3 sm:p-4">
+            <div @click.away="openCheckoutModal = false" 
+                 x-transition:enter="transition ease-out duration-300 delay-75"
+                 x-transition:enter-start="opacity-0 transform scale-90"
+                 x-transition:enter-end="opacity-100 transform scale-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 transform scale-100"
+                 x-transition:leave-end="opacity-0 transform scale-90"
+                 class="bg-white rounded-2xl w-full max-w-sm sm:max-w-md p-4 sm:p-5 shadow-2xl border border-gray-100 space-y-3 sm:space-y-4 max-h-[90vh] overflow-y-auto">
+                
+                <!-- Header -->
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                    <h3 class="text-base sm:text-lg font-black text-gray-900">Form Pemesanan</h3>
+                    <button @click="openCheckoutModal = false" class="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
 
-            <div class="bg-gradient-to-br from-red-50 to-pink-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-red-200">
-                <p class="text-[10px] sm:text-xs text-red-700 font-semibold">Produk yang dipilih:</p>
-                <h4 class="text-sm sm:text-base font-black text-red-900" x-text="selectedPackage ? selectedPackage.name : ''"></h4>
-                <p class="text-xs sm:text-sm font-bold text-red-600 mt-1" x-text="selectedPackage ? 'Rp' + new Intl.NumberFormat('id-ID').format(selectedPackage.price) : ''"></p>
-            </div>
+                <!-- Product Info -->
+                <div class="bg-gradient-to-br from-red-50 to-pink-50 p-3 rounded-xl border border-red-200">
+                    <p class="text-[10px] sm:text-xs text-red-700 font-semibold">Produk yang dipilih:</p>
+                    <h4 class="text-sm sm:text-base font-black text-red-900" x-text="selectedPackage ? selectedPackage.name : ''"></h4>
+                    <p class="text-xs sm:text-sm font-bold text-red-600 mt-1" x-text="selectedPackage ? 'Rp' + new Intl.NumberFormat('id-ID').format(selectedPackage.price) : ''"></p>
+                </div>
 
-            <form action="{{ route('checkout.store') }}" method="POST" class="space-y-3 sm:space-y-4" x-data="{ quantity: 1, packagePrice: 0 }">
+            <form action="{{ route('checkout.store') }}" method="POST" class="space-y-3" x-data="{ quantity: 1, packagePrice: 0 }">
                 @csrf
                 <input type="hidden" name="package_id" :value="selectedPackage ? selectedPackage.id : ''">
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1.5">Nama Lengkap</label>
                     <input type="text" name="customer_name" required placeholder="Contoh: Muhammad Zaki"
-                           class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border border-gray-200 text-xs sm:text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-600 outline-none">
+                           class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-600 outline-none">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1.5">Nomor WhatsApp (Aktif)</label>
                     <input type="text" name="customer_whatsapp" required placeholder="Contoh: 081234567890"
-                           class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border border-gray-200 text-xs sm:text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-600 outline-none">
+                           class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-600 outline-none">
                     <p class="text-[9px] sm:text-[10px] text-gray-500 mt-1">Admin akan menghubungi kamu melalui nomor ini.</p>
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1.5">Jumlah Akun</label>
-                    <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="flex items-center space-x-2">
                         <button type="button" @click="if(quantity > 1) quantity--" 
-                                class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center font-bold text-gray-700 transition-all text-sm sm:text-base">
+                                class="w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center font-bold text-gray-700 transition-all">
                             −
                         </button>
                         <input type="number" name="quantity" x-model="quantity" min="1" max="10" required
-                               class="w-16 sm:w-20 text-center px-2 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-gray-200 text-xs sm:text-sm font-bold focus:ring-2 focus:ring-red-500/20 focus:border-red-600 outline-none">
+                               class="w-16 text-center px-2 py-2.5 rounded-lg border border-gray-200 text-xs font-bold focus:ring-2 focus:ring-red-500/20 focus:border-red-600 outline-none">
                         <button type="button" @click="if(quantity < 10) quantity++" 
-                                class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center font-bold text-gray-700 transition-all text-sm sm:text-base">
+                                class="w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center font-bold text-gray-700 transition-all">
                             +
                         </button>
                         <div class="flex-1 text-right">
-                            <p class="text-[9px] sm:text-xs text-gray-500">Total:</p>
-                            <p class="text-sm sm:text-lg font-black text-red-600" x-text="'Rp' + ((selectedPackage ? selectedPackage.price : 0) * quantity).toLocaleString('id-ID')"></p>
+                            <p class="text-[9px] text-gray-500">Total:</p>
+                            <p class="text-sm font-black text-red-600" x-text="'Rp' + ((selectedPackage ? selectedPackage.price : 0) * quantity).toLocaleString('id-ID')"></p>
                         </div>
                     </div>
-                    <p class="text-[9px] sm:text-[10px] text-gray-500 mt-1">Maksimal 10 akun per pesanan</p>
+                    <p class="text-[9px] text-gray-500 mt-1">Maksimal 10 akun per pesanan</p>
                 </div>
 
-                <div class="pt-2 sm:pt-4">
-                    <button type="submit" class="w-full py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-red-200 transition-all">
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-red-200 transition-all">
                         Lanjut ke Pembayaran QRIS
                     </button>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 

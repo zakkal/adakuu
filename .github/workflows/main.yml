@@ -19,7 +19,7 @@ jobs:
           server: 151.243.222.70
           username: adakuu@adakuu.web.id
           password: adakuu
-          server-dir: /home/zakkalmy/domains/adakuu.web.id/public_html
+          server-dir: /home/zakkalmy/domains/adakuu.web.id/public_html/
           exclude: |
             **/.git*
             **/node_modules/**

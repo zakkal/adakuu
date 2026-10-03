@@ -30,7 +30,7 @@ class AdminDashboardController extends Controller
         // Monthly sales data for chart (last 12 months)
         $monthlySales = Order::whereIn('order_status', $successStatuses)
             ->where('created_at', '>=', now()->subMonths(12)->startOfMonth())
-            ->selectRaw("strftime('%Y-%m', created_at) as month, SUM(total_amount) as revenue, COUNT(*) as order_count")
+            ->selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, SUM(total_amount) as revenue, COUNT(*) as order_count")
             ->groupBy('month')
             ->orderBy('month')
             ->get();
@@ -38,7 +38,7 @@ class AdminDashboardController extends Controller
         $monthlyCost = Order::whereIn('order_status', $successStatuses)
             ->where('orders.created_at', '>=', now()->subMonths(12)->startOfMonth())
             ->join('packages', 'orders.package_id', '=', 'packages.id')
-            ->selectRaw("strftime('%Y-%m', orders.created_at) as month, SUM(packages.cost_price) as total_cost")
+            ->selectRaw("DATE_FORMAT(orders.created_at, '%Y-%m') as month, SUM(packages.cost_price) as total_cost")
             ->groupBy('month')
             ->orderBy('month')
             ->get()

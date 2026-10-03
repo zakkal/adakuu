@@ -1,0 +1,54 @@
+name: 🚀 Deploy Laravel to Shared Hosting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+      
+      - name: 🔧 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, xml, ctype, json, bcmath, pdo, mysql
+      
+      - name: 📦 Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+      
+      - name: 🧹 Clean up unnecessary files
+        run: |
+          rm -rf .git
+          rm -rf node_modules
+          rm -rf tests
+          rm -f .env
+          rm -f .env.example
+          rm -f phpunit.xml
+          rm -f .editorconfig
+          rm -f .gitignore
+          rm -f .gitattributes
+          rm -f README.md
+      
+      - name: 📂 Deploy to Shared Hosting via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 151.243.222.70
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /domains/adakuu.web.id/public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/tests/**
+            .env
+            .env.example
+            phpunit.xml
+            .editorconfig
+            README.md
